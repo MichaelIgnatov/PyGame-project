@@ -1,7 +1,7 @@
-from Camera import Camera
-from Start_screen import start_screen
-from Level import load_level, generate_level
-from Sprites import all_sprites, enemies_group
+from camera import Camera
+from start_screen import start_screen
+from level import load_level, generate_level
+from object_sprites import all_sprites, enemies_group, coins_group
 import pygame
 
 pygame.init()
@@ -18,7 +18,7 @@ background = pygame.image.load('data\BackgroundFon.png').convert()
 background = pygame.transform.smoothscale(background, screen.get_size())
 
 start_screen(screen, WIDTH, HEIGHT, clock, FPS)
-player, level_x, level_y, enemies_list = generate_level(load_level('test_level.txt'))
+player, level_x, level_y, enemies_list = generate_level(load_level('level.txt'))
 camera = Camera()
 running = True
 
@@ -42,8 +42,9 @@ while running:
     if keys[pygame.K_a]:
         player.update(pygame.K_a)
 
-    for enemie in enemies_list:
-        enemie.update()  # обновление положения противников
+    enemies_group.update(player)
+
+    coins_group.update(player)
 
     screen.blit(background, (0, 0))
     camera.update(player, WIDTH, HEIGHT)

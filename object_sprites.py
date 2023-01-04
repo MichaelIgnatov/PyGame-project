@@ -8,11 +8,13 @@ box_group = pygame.sprite.Group()
 enemies_group = pygame.sprite.Group()
 stone_wall_group = pygame.sprite.Group()
 spike_group = pygame.sprite.Group()
+coins_group = pygame.sprite.Group()
 
 tile_images = {
     'box': load_image('box.png'),
     'stone_wall': load_image('stone wall.png'),
-    'spike': load_image('spike.png')
+    'spike': load_image('spike.png'),
+    'coin': load_image('coin.png')
 }
 
 left_movement = [load_image('RedBall_left_90_rotate.png'), load_image('RedBall_180_rotate.png'),
@@ -20,6 +22,10 @@ left_movement = [load_image('RedBall_left_90_rotate.png'), load_image('RedBall_1
 
 right_movement = [load_image('RedBall_right_90_rotate.png'), load_image('RedBall_180_rotate.png'),
                  load_image('RedBall_left_90_rotate.png'), load_image('RedBall.png')]
+
+coins_animation = [load_image('coin.png'), load_image('coin1.png'),
+                 load_image('coin2.png'), load_image('coin3.png'),
+                   load_image('coin4.png'), load_image('coin4.png')]
 
 player_image = load_image('player.png')
 red_ball_image = load_image('RedBall.png')

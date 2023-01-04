@@ -14,6 +14,7 @@ class Player(pygame.sprite.Sprite):
             tile_width * pos_x, tile_height * pos_y)
         self.speed = 10
         self.damage = 1
+        self.coins = 0
 
     def update(self, *args):
         if self.health <= 0:
@@ -43,3 +44,6 @@ class Player(pygame.sprite.Sprite):
 
     def hurt(self, dmg):
         self.health -= dmg
+
+    def take_coin(self):
+        self.coins += 1
