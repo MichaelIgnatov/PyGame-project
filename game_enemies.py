@@ -37,9 +37,9 @@ class RedBall(pygame.sprite.Sprite):
 
     def animation(self):
         if self.direction == 'right':
-            self.image = self.right_movement[self.count % 4]
+            self.image = self.right_movement[self.count % 8]
         if self.direction == 'left':
-            self.image = self.left_movement[self.count % 4]
+            self.image = self.left_movement[self.count % 8]
 
 
 class Boss(pygame.sprite.Sprite):

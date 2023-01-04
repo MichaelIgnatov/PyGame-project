@@ -17,11 +17,11 @@ tile_images = {
     'coin': load_image('coin.png')
 }
 
-left_movement = [load_image('RedBall_left_90_rotate.png'), load_image('RedBall_180_rotate.png'),
-                 load_image('RedBall_right_90_rotate.png'), load_image('RedBall.png')]
+left_movement = [load_image('RedBall_left_45_rotate.png'), load_image('RedBall_left_90_rotate.png'), load_image('RedBall_left_135_rotate.png'), load_image('RedBall_180_rotate.png'),
+                 load_image('RedBall_right_135_rotate.png'), load_image('RedBall_right_90_rotate.png'), load_image('RedBall_right_45_rotate.png'), load_image('RedBall.png')]
 
-right_movement = [load_image('RedBall_right_90_rotate.png'), load_image('RedBall_180_rotate.png'),
-                 load_image('RedBall_left_90_rotate.png'), load_image('RedBall.png')]
+right_movement = [load_image('RedBall_right_45_rotate.png'), load_image('RedBall_right_90_rotate.png'), load_image('RedBall_right_135_rotate.png'), load_image('RedBall_180_rotate.png'),
+                 load_image('RedBall_left_135_rotate.png'), load_image('RedBall_left_90_rotate.png'), load_image('RedBall_left_45_rotate.png'), load_image('RedBall.png')]
 
 coins_animation = [load_image('coin.png'), load_image('coin1.png'),
                  load_image('coin2.png'), load_image('coin3.png'),
