@@ -1,6 +1,6 @@
 import pygame
 from object_sprites import player_group, all_sprites, box_group, player_image, tile_width, tile_height, \
-    stone_wall_group, spike_group, enemies_group
+    stone_wall_group, portal_group, border_group
 
 
 # класс игрового персонажа
@@ -24,23 +24,35 @@ class Player(pygame.sprite.Sprite):
                 if args[0] == pygame.K_w:
                     self.rect = self.rect.move(0, -1 * self.speed)
                     if pygame.sprite.spritecollideany(self, box_group) \
-                            or pygame.sprite.spritecollideany(self, stone_wall_group):
+                            or pygame.sprite.spritecollideany(self, stone_wall_group) \
+                            or pygame.sprite.spritecollideany(self, border_group):
                         self.rect = self.rect.move(0, self.speed)
+                    if pygame.sprite.spritecollideany(self, portal_group):
+                        self.kill()
                 if args[0] == pygame.K_s:
                     self.rect = self.rect.move(0, self.speed)
                     if pygame.sprite.spritecollideany(self, box_group) \
-                            or pygame.sprite.spritecollideany(self, stone_wall_group):
+                            or pygame.sprite.spritecollideany(self, stone_wall_group) \
+                            or pygame.sprite.spritecollideany(self, border_group):
                         self.rect = self.rect.move(0, -1 * self.speed)
+                    if pygame.sprite.spritecollideany(self, portal_group):
+                        self.kill()
                 if args[0] == pygame.K_d:
                     self.rect = self.rect.move(self.speed, 0)
                     if pygame.sprite.spritecollideany(self, box_group) \
-                            or pygame.sprite.spritecollideany(self, stone_wall_group):
+                            or pygame.sprite.spritecollideany(self, stone_wall_group) \
+                            or pygame.sprite.spritecollideany(self, border_group):
                         self.rect = self.rect.move(-1 * self.speed, 0)
+                    if pygame.sprite.spritecollideany(self, portal_group):
+                        self.kill()
                 if args[0] == pygame.K_a:
                     self.rect = self.rect.move(-1 * self.speed, 0)
                     if pygame.sprite.spritecollideany(self, box_group) \
-                            or pygame.sprite.spritecollideany(self, stone_wall_group):
+                            or pygame.sprite.spritecollideany(self, stone_wall_group) \
+                            or pygame.sprite.spritecollideany(self, border_group):
                         self.rect = self.rect.move(self.speed, 0)
+                    if pygame.sprite.spritecollideany(self, portal_group):
+                        self.kill()
 
     def hurt(self, dmg):
         self.health -= dmg

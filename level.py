@@ -1,5 +1,5 @@
 from player import Player
-from game_objects import Box, StoneWall, Spike, Coin
+from game_objects import Box, StoneWall, Spike, Coin, Portal, Border
 from game_enemies import RedBall
 
 # получение файла уровня
@@ -14,7 +14,6 @@ def load_level(filename):
 
 # Создание игровых объектов
 def generate_level(level):
-    enemies_list = []
     new_player, x, y = None, None, None
     for y in range(len(level)):
         for x in range(len(level[y])):
@@ -23,12 +22,15 @@ def generate_level(level):
             elif level[y][x] == ':':
                 StoneWall('stone_wall', x, y)
             elif level[y][x] == 'e':
-                enemie = RedBall(x, y)
-                enemies_list.append(enemie)  # список всех противников
+                RedBall(x, y)
             elif level[y][x] == '^':
                 Spike('spike', x, y)
+            elif level[y][x] == 'o':
+                Portal('portal', x, y)
+            elif level[y][x] == '|':
+                Border('border', x, y)
             elif level[y][x] == '$':
                 Coin('coin', x, y)
             elif level[y][x] == '@':
                 new_player = Player(x, y)
-    return new_player, x, y, enemies_list
+    return new_player, x, y

@@ -1,7 +1,8 @@
 from camera import Camera
 from start_screen import start_screen
 from level import load_level, generate_level
-from object_sprites import all_sprites, enemies_group, coins_group
+from object_sprites import all_sprites, enemies_group, coins_group, portal_group
+from main_menu import main_menu
 import pygame
 
 pygame.init()
@@ -12,13 +13,15 @@ WHITE = pygame.Color('white')
 BLACK = pygame.Color('black')
 clock = pygame.time.Clock()
 FPS = 30
-pygame.mouse.set_visible(False)
 
 background = pygame.image.load('data\BackgroundFon.png').convert()
 background = pygame.transform.smoothscale(background, screen.get_size())
 
 start_screen(screen, WIDTH, HEIGHT, clock, FPS)
-player, level_x, level_y, enemies_list = generate_level(load_level('level.txt'))
+level = main_menu(screen)
+
+pygame.mouse.set_visible(False)
+player, level_x, level_y = generate_level(load_level(level))
 camera = Camera()
 running = True
 
@@ -45,6 +48,8 @@ while running:
     enemies_group.update(player)
 
     coins_group.update(player)
+
+    portal_group.update()
 
     screen.blit(background, (0, 0))
     camera.update(player, WIDTH, HEIGHT)

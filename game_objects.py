@@ -1,6 +1,6 @@
 import pygame
 from object_sprites import box_group, all_sprites, tile_images, tile_width, tile_height, stone_wall_group, spike_group, \
-    enemies_group, coins_group, coins_animation
+    enemies_group, coins_group, coins_animation, portal_group, portal_animation, border_group
 
 
 # игровые объекты
@@ -55,3 +55,28 @@ class Coin(pygame.sprite.Sprite):
 
     def animation(self):
         self.image = self.coins_animation[self.count % 5]
+
+
+class Portal(pygame.sprite.Sprite):
+    def __init__(self, tile_type, pos_x, pos_y):
+        super().__init__(portal_group, all_sprites)
+        self.image = tile_images[tile_type]
+        self.rect = self.image.get_rect().move(
+            tile_width * pos_x, tile_height * pos_y)
+        self.portal_animation = portal_animation
+        self.count = 0
+
+    def update(self):
+        self.animation()
+        self.count += 1
+
+    def animation(self):
+        self.image = self.portal_animation[self.count % 4]
+
+
+class Border(pygame.sprite.Sprite):
+    def __init__(self, tile_type, pos_x, pos_y):
+        super().__init__(border_group, all_sprites)
+        self.image = tile_images[tile_type]
+        self.rect = self.image.get_rect().move(
+            tile_width * pos_x, tile_height * pos_y)
