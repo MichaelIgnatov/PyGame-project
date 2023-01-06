@@ -1,5 +1,5 @@
 class Button():
-    def __init__(self, image, pos, level):
+    def __init__(self, image, pos, level=''):
         self.image = image
         self.x_pos = pos[0]
         self.y_pos = pos[1]
@@ -13,5 +13,8 @@ class Button():
     def checkForInput(self, position):
         if position[0] in range(self.rect.left, self.rect.right) \
                 and position[1] in range(self.rect.top, self.rect.bottom):
-            return self.level
+            if self.level != '':
+                return self.level
+            else:
+                return True
         return False

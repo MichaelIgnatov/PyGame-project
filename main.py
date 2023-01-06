@@ -3,6 +3,7 @@ from start_screen import start_screen
 from functions import load_level, generate_level
 from object_sprites import all_sprites, enemies_group, coins_group, portal_group
 from main_menu import main_menu
+from end_screen import end_screen
 import pygame
 
 pygame.init()
@@ -13,6 +14,7 @@ WHITE = pygame.Color('white')
 BLACK = pygame.Color('black')
 clock = pygame.time.Clock()
 FPS = 30
+new_game = False
 
 background = pygame.image.load('data\BackgroundFon.png').convert()
 background = pygame.transform.smoothscale(background, screen.get_size())
@@ -22,10 +24,18 @@ level = main_menu(screen, WIDTH, HEIGHT, clock, FPS)
 
 pygame.mouse.set_visible(False)
 player, level_x, level_y = generate_level(load_level(level))
+player.set_current_level(level)
 camera = Camera()
 running = True
 
 while running:
+    if new_game:
+        level = main_menu(screen, WIDTH, HEIGHT, clock, FPS)
+        pygame.mouse.set_visible(False)
+        player, level_x, level_y = generate_level(load_level(level))
+        player.set_current_level(level)
+        new_game = False
+
     screen.fill(BLACK)
     clock.tick(FPS)
     for event in pygame.event.get():
@@ -57,4 +67,8 @@ while running:
         camera.apply(sprite)
     all_sprites.draw(screen)
     pygame.display.flip()
+
+    if player.get_game_result() != '':
+        game_result = player.get_game_result()
+        end_screen(screen, WIDTH, HEIGHT, clock, FPS, game_result)
 pygame.quit()

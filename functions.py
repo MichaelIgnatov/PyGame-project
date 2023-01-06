@@ -11,8 +11,6 @@ def load_level(filename):
     with open(filename, 'r') as mapFile:
         level_map = [line.strip() for line in mapFile]
 
-    # max_width = max(map(len, level_map))
-
     return level_map
 
 
