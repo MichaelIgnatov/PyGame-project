@@ -1,6 +1,6 @@
 from camera import Camera
 from start_screen import start_screen
-from level import load_level, generate_level
+from functions import load_level, generate_level
 from object_sprites import all_sprites, enemies_group, coins_group, portal_group
 from main_menu import main_menu
 import pygame
@@ -18,7 +18,7 @@ background = pygame.image.load('data\BackgroundFon.png').convert()
 background = pygame.transform.smoothscale(background, screen.get_size())
 
 start_screen(screen, WIDTH, HEIGHT, clock, FPS)
-level = main_menu(screen)
+level = main_menu(screen, WIDTH, HEIGHT, clock, FPS)
 
 pygame.mouse.set_visible(False)
 player, level_x, level_y = generate_level(load_level(level))

@@ -1,6 +1,6 @@
 import pygame
 from object_sprites import enemies_group, all_sprites, red_ball_image, tile_width, tile_height, boss_image, \
-    left_movement, right_movement, box_group, stone_wall_group
+    left_movement, right_movement
 
 
 # классы противников

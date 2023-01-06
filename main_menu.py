@@ -1,11 +1,19 @@
 import pygame
-from load_image import load_image
+from functions import terminate, place_text
 from button import Button
-from terminate import terminate
+from load_image import load_image
 
 
-def main_menu(screen):
-    background_image = pygame.image.load('data\BackgroundFon.png').convert()
+def main_menu(screen, WIDTH, HEIGHT, clock, FPS):
+    file = open("data/result.txt", "r", encoding='utf8')
+    text = file.read().strip().split()
+    text = 'Всего монет собрано: ' + str(int(text[0]) + int(text[1]) + int(text[2]))
+    file.close()
+
+    fon = pygame.transform.scale(load_image('BackgroundFon.jpg'), (WIDTH, HEIGHT))
+    screen.blit(fon, (0, 0))
+
+    place_text(screen, text, 100, 100)
 
     image1 = load_image('level1.png')
     image2 = load_image('level2.png')
@@ -18,7 +26,7 @@ def main_menu(screen):
     menu_running = True
     while menu_running:
         mouse_pos = pygame.mouse.get_pos()
-        screen.blit(background_image, (0, 0))
+        screen.blit(fon, (0, 0))
 
         level1_button.update(screen)
         level2_button.update(screen)
@@ -32,11 +40,20 @@ def main_menu(screen):
                     level = level1_button.checkForInput(mouse_pos)
                     menu_running = False
                 if level2_button.checkForInput(mouse_pos):
-                    level = level2_button.checkForInput(mouse_pos)
-                    menu_running = False
+                    if int(text[0][-1]) > 0:
+                        level = level2_button.checkForInput(mouse_pos)
+                        menu_running = False
+                    else:
+                        text = 'Вы собрали недостаточное количество монет'
+                        place_text(screen, text, 100, 200)
                 if level3_button.checkForInput(mouse_pos):
-                    level = level3_button.checkForInput(mouse_pos)
-                    menu_running = False
+                    if int(text[0][-1]) > 0:
+                        level = level3_button.checkForInput(mouse_pos)
+                        menu_running = False
+                    else:
+                        text = 'Вы собрали недостаточное количество монет'
+                        place_text(screen, text, 100, 200)
 
-        pygame.display.update()
+        pygame.display.flip()
+        clock.tick(FPS)
     return level
