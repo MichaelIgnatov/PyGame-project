@@ -6,14 +6,14 @@ from load_image import load_image
 
 def main_menu(screen, WIDTH, HEIGHT, clock, FPS):
     file = open("data/result.txt", "r", encoding='utf8')
-    text = file.read().strip().split()
-    text = 'Всего монет собрано: ' + str(int(text[0]) + int(text[1]) + int(text[2]))
+    file_text = file.read().strip().split()
+    points = 'Всего монет собрано: ' + str(int(file_text[0]) + int(file_text[1]) + int(file_text[2]))
     file.close()
 
     fon = pygame.transform.scale(load_image('BackgroundFon.jpg'), (WIDTH, HEIGHT))
     screen.blit(fon, (0, 0))
 
-    place_text(screen, text, 100, 100)
+    text = ''
 
     image1 = load_image('level1.png')
     image2 = load_image('level2.png')
@@ -28,6 +28,8 @@ def main_menu(screen, WIDTH, HEIGHT, clock, FPS):
         mouse_pos = pygame.mouse.get_pos()
         screen.blit(fon, (0, 0))
 
+        place_text(screen, points, 210, 60)
+        place_text(screen, text, 80, 90)
         level1_button.update(screen)
         level2_button.update(screen)
         level3_button.update(screen)
@@ -40,19 +42,17 @@ def main_menu(screen, WIDTH, HEIGHT, clock, FPS):
                     level = level1_button.checkForInput(mouse_pos)
                     menu_running = False
                 if level2_button.checkForInput(mouse_pos):
-                    if int(text[0][-1]) > 0:
+                    if int(points[-1]) > 0:
                         level = level2_button.checkForInput(mouse_pos)
                         menu_running = False
                     else:
                         text = 'Вы собрали недостаточное количество монет'
-                        place_text(screen, text, 100, 200)
                 if level3_button.checkForInput(mouse_pos):
-                    if int(text[0][-1]) > 0:
+                    if int(points[-1]) > 0:
                         level = level3_button.checkForInput(mouse_pos)
                         menu_running = False
                     else:
                         text = 'Вы собрали недостаточное количество монет'
-                        place_text(screen, text, 100, 200)
 
         pygame.display.flip()
         clock.tick(FPS)
