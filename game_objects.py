@@ -1,6 +1,6 @@
 import pygame
 from object_sprites import box_group, all_sprites, tile_images, tile_width, tile_height, stone_wall_group, spike_group, \
-    enemies_group, coins_group, coins_animation, portal_group, portal_animation, border_group
+    enemies_group, coins_group, coins_animation, portal_group, portal_animation, border_group,  enemies_border_group
 
 
 # игровые объекты
@@ -37,6 +37,7 @@ class Spike(pygame.sprite.Sprite):
             player.hurt(self.damage)
 
 
+# Монетка
 class Coin(pygame.sprite.Sprite):
     def __init__(self, tile_type, pos_x, pos_y):
         super().__init__(coins_group, all_sprites)
@@ -59,6 +60,7 @@ class Coin(pygame.sprite.Sprite):
         self.image = self.coins_animation[self.count // 5]
 
 
+# Портал
 class Portal(pygame.sprite.Sprite):
     def __init__(self, tile_type, pos_x, pos_y):
         super().__init__(portal_group, all_sprites)
@@ -78,9 +80,19 @@ class Portal(pygame.sprite.Sprite):
         self.image = self.portal_animation[self.count // 5]
 
 
+# Объект, ограничивающий передвижение игрока
 class Border(pygame.sprite.Sprite):
     def __init__(self, tile_type, pos_x, pos_y):
         super().__init__(border_group, all_sprites)
+        self.image = tile_images[tile_type]
+        self.rect = self.image.get_rect().move(
+            tile_width * pos_x, tile_height * pos_y)
+
+
+# Объект ограничивающий передвижение противников
+class EnemiesBorder(pygame.sprite.Sprite):
+    def __init__(self, tile_type, pos_x, pos_y):
+        super().__init__(enemies_border_group, all_sprites)
         self.image = tile_images[tile_type]
         self.rect = self.image.get_rect().move(
             tile_width * pos_x, tile_height * pos_y)

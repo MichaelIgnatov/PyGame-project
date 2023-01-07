@@ -73,19 +73,19 @@ class Player(pygame.sprite.Sprite):
         if self.death:
             self.save_result()
 
-    def hurt(self, dmg):
+    def hurt(self, dmg):  # Нанесение повреждений игроку
         self.health -= dmg
 
-    def take_coin(self):
+    def take_coin(self):  # Подсчёт собранных игроком монет
         self.coins += 1
 
-    def set_current_level(self, level):
+    def set_current_level(self, level):  # Устанавливает текущий уровень
         self.current_level = level
 
-    def get_game_result(self):
+    def get_game_result(self):  # Возвращает результат текущей игры
         return self.game_result
 
-    def save_result(self):
+    def save_result(self):  # Сохранение результата игры в текстовый файл
         file = open("data/result.txt", "r", encoding='utf8')
         text = file.read().strip().split()
         file.close()

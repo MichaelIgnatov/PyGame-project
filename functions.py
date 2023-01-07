@@ -38,6 +38,7 @@ def generate_level(level):
     return new_player, x, y
 
 
+# Размещение текста
 def place_text(screen, text, x, y, font_size=36):
     font = pygame.font.Font(None, font_size)
     text = font.render(str(text), True, (11, 191, 83))
