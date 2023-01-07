@@ -25,22 +25,24 @@ class RedBall(pygame.sprite.Sprite):
         if pygame.sprite.collide_mask(self, player):
             player.hurt(self.damage)
         self.max += self.speed
+        if self.count > 35:
+            self.count = 0
         self.animation()
+        self.count += 1
         if self.max % 200 == 0:
             self.speed *= -1
             if self.direction == 'right':
                 self.direction = 'left'
             else:
                 self.direction = 'right'
-        self.count += 1
 
         self.animation()
 
     def animation(self):
         if self.direction == 'right':
-            self.image = self.right_movement[self.count % 8]
+            self.image = self.right_movement[self.count // 5]
         if self.direction == 'left':
-            self.image = self.left_movement[self.count % 8]
+            self.image = self.left_movement[self.count // 5]
 
 
 class Boss(pygame.sprite.Sprite):

@@ -47,6 +47,8 @@ class Coin(pygame.sprite.Sprite):
         self.count = 0
 
     def update(self, player):
+        if self.count > 25:
+            self.count = 0
         self.animation()
         self.count += 1
         if pygame.sprite.collide_mask(self, player):
@@ -54,7 +56,7 @@ class Coin(pygame.sprite.Sprite):
             self.kill()
 
     def animation(self):
-        self.image = self.coins_animation[self.count % 5]
+        self.image = self.coins_animation[self.count // 5]
 
 
 class Portal(pygame.sprite.Sprite):
@@ -67,11 +69,13 @@ class Portal(pygame.sprite.Sprite):
         self.count = 0
 
     def update(self):
+        if self.count > 15:
+            self.count = 0
         self.animation()
         self.count += 1
 
     def animation(self):
-        self.image = self.portal_animation[self.count % 4]
+        self.image = self.portal_animation[self.count // 5]
 
 
 class Border(pygame.sprite.Sprite):
