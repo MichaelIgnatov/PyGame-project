@@ -1,7 +1,7 @@
 import pygame
 from object_sprites import player_group, all_sprites, box_group, player_image, tile_width, tile_height, \
-    stone_wall_group, portal_group, border_group
-
+    stone_wall_group, portal_group, border_group, enemies_border_group
+from load_image import load_image
 
 # класс игрового персонажа
 
@@ -12,12 +12,17 @@ class Player(pygame.sprite.Sprite):
         self.health = 3
         self.rect = self.image.get_rect().move(
             tile_width * pos_x, tile_height * pos_y)
+        self.full_heart = load_image()
+        self.empty_heart = load_image()
         self.speed = 10
         self.damage = 1
         self.coins = 0
         self.death = False
         self.current_level = ''
         self.game_result = ''
+        self.sound_coin = pygame.mixer.Sound("data/sounds/take a coin.ogg")
+        self.sound_hurt = pygame.mixer.Sound("data/sounds/player_hurt.ogg")
+        self.sound_portal = pygame.mixer.Sound("data/sounds/portal.ogg")
 
     def update(self, *args):
         if self.health <= 0:
@@ -30,9 +35,11 @@ class Player(pygame.sprite.Sprite):
                     self.rect = self.rect.move(0, -1 * self.speed)
                     if pygame.sprite.spritecollideany(self, box_group) \
                             or pygame.sprite.spritecollideany(self, stone_wall_group) \
-                            or pygame.sprite.spritecollideany(self, border_group):
+                            or pygame.sprite.spritecollideany(self, border_group)\
+                            or pygame.sprite.spritecollideany(self, enemies_border_group):
                         self.rect = self.rect.move(0, self.speed)
                     if pygame.sprite.spritecollideany(self, portal_group):
+                        self.sound_portal.play()
                         self.rect = self.rect.move(0, self.speed)
                         self.kill()
                         self.game_result = 'win'
@@ -41,9 +48,11 @@ class Player(pygame.sprite.Sprite):
                     self.rect = self.rect.move(0, self.speed)
                     if pygame.sprite.spritecollideany(self, box_group) \
                             or pygame.sprite.spritecollideany(self, stone_wall_group) \
-                            or pygame.sprite.spritecollideany(self, border_group):
+                            or pygame.sprite.spritecollideany(self, border_group)\
+                            or pygame.sprite.spritecollideany(self, enemies_border_group):
                         self.rect = self.rect.move(0, -1 * self.speed)
                     if pygame.sprite.spritecollideany(self, portal_group):
+                        self.sound_portal.play()
                         self.rect = self.rect.move(0, -1 * self.speed)
                         self.kill()
                         self.game_result = 'win'
@@ -52,9 +61,11 @@ class Player(pygame.sprite.Sprite):
                     self.rect = self.rect.move(self.speed, 0)
                     if pygame.sprite.spritecollideany(self, box_group) \
                             or pygame.sprite.spritecollideany(self, stone_wall_group) \
-                            or pygame.sprite.spritecollideany(self, border_group):
+                            or pygame.sprite.spritecollideany(self, border_group)\
+                            or pygame.sprite.spritecollideany(self, enemies_border_group):
                         self.rect = self.rect.move(-1 * self.speed, 0)
                     if pygame.sprite.spritecollideany(self, portal_group):
+                        self.sound_portal.play()
                         self.rect = self.rect.move(-1 * self.speed, 0)
                         self.kill()
                         self.game_result = 'win'
@@ -63,9 +74,11 @@ class Player(pygame.sprite.Sprite):
                     self.rect = self.rect.move(-1 * self.speed, 0)
                     if pygame.sprite.spritecollideany(self, box_group) \
                             or pygame.sprite.spritecollideany(self, stone_wall_group) \
-                            or pygame.sprite.spritecollideany(self, border_group):
+                            or pygame.sprite.spritecollideany(self, border_group)\
+                            or pygame.sprite.spritecollideany(self, enemies_border_group):
                         self.rect = self.rect.move(self.speed, 0)
                     if pygame.sprite.spritecollideany(self, portal_group):
+                        self.sound_portal.play()
                         self.rect = self.rect.move(self.speed, 0)
                         self.kill()
                         self.game_result = 'win'
@@ -74,9 +87,11 @@ class Player(pygame.sprite.Sprite):
             self.save_result()
 
     def hurt(self, dmg):  # Нанесение повреждений игроку
+        self.sound_hurt.play()
         self.health -= dmg
 
     def take_coin(self):  # Подсчёт собранных игроком монет
+        self.sound_coin.play()
         self.coins += 1
 
     def set_current_level(self, level):  # Устанавливает текущий уровень

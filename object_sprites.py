@@ -11,6 +11,7 @@ spike_group = pygame.sprite.Group()
 coins_group = pygame.sprite.Group()
 portal_group = pygame.sprite.Group()
 border_group = pygame.sprite.Group()
+enemies_border_group = pygame.sprite.Group()
 
 tile_images = {
     'box': load_image('box.png'),
@@ -18,7 +19,8 @@ tile_images = {
     'spike': load_image('spike.png'),
     'coin': load_image('coin.png'),
     'portal': load_image('portal1.png'),
-    'border': load_image('border.png')
+    'border': load_image('border.png'),
+    'enemies_border': load_image('box.png')
 }
 
 left_movement = [load_image('RedBall_left_45_rotate.png'), load_image('RedBall_left_90_rotate.png'),

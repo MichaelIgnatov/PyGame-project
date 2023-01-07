@@ -12,6 +12,9 @@ def end_screen(screen, WIDTH, HEIGHT, clock, FPS, game_result):
     file.close()
     lose_text = f'Вы проиграли! Монет собрано: {file_text[-1]}'
     win_text = f'Уровень пройден! Монет собрано: {file_text[-1]}'
+    lose_sound = pygame.mixer.Sound("data/sounds/game-lose.ogg")
+    win_sound = pygame.mixer.Sound("data/sounds/game-win.ogg")
+    one_repetition = True
 
     fon = pygame.transform.scale(load_image('BackgroundFon.jpg'), (WIDTH, HEIGHT))
     screen.blit(fon, (0, 0))
@@ -26,25 +29,32 @@ def end_screen(screen, WIDTH, HEIGHT, clock, FPS, game_result):
         text = lose_text
         x = 55
         y = 100
+        sound = lose_sound
     else:
         text = win_text
         x = 35
         y = 100
+        sound = win_sound
     running = True
     while running:
         mouse_pos = pygame.mouse.get_pos()
         screen.blit(fon, (0, 0))
 
         place_text(screen, text, x, y, 50)
+        if one_repetition:
+            sound.play()
+            one_repetition = False
+
         menu_button.update(screen)
         exit_button.update(screen)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 terminate()
-            if menu_button.checkForInput(mouse_pos):
-                new_game = True
-            if exit_button.checkForInput(mouse_pos):
-                running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if menu_button.checkForInput(mouse_pos):
+                    new_game = True
+                if exit_button.checkForInput(mouse_pos):
+                    running = False
         pygame.display.flip()
         clock.tick(FPS)
     return new_game

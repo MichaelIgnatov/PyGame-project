@@ -1,7 +1,7 @@
 import sys
 import pygame
 from player import Player
-from game_objects import Box, StoneWall, Spike, Coin, Portal, Border
+from game_objects import Box, StoneWall, Spike, Coin, Portal, Border, EnemiesBorder
 from game_enemies import RedBall
 
 
@@ -33,6 +33,8 @@ def generate_level(level):
                 Border('border', x, y)
             elif level[y][x] == '$':
                 Coin('coin', x, y)
+            elif level[y][x] == 'b':
+                EnemiesBorder('enemies_border', x, y)
             elif level[y][x] == '@':
                 new_player = Player(x, y)
     return new_player, x, y

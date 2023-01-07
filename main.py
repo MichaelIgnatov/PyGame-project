@@ -5,6 +5,10 @@ from object_sprites import all_sprites, enemies_group, coins_group, portal_group
 from main_menu import main_menu
 from end_screen import end_screen
 import pygame
+pygame.mixer.pre_init(44100, -16, 2, 2048)
+pygame.mixer.init()
+pygame.init()
+
 
 pygame.init()
 size = WIDTH, HEIGHT = 700, 600

@@ -1,6 +1,6 @@
 import pygame
 from object_sprites import enemies_group, all_sprites, red_ball_image, tile_width, tile_height, boss_image, \
-    left_movement, right_movement
+    left_movement, right_movement, enemies_border_group
 
 
 # классы противников
@@ -17,19 +17,17 @@ class RedBall(pygame.sprite.Sprite):
         self.health = 1
         self.rect = self.image.get_rect().move(tile_width * pos_x, tile_height * pos_y)
         self.speed = 2
-        self.max = 0
         self.damage = 1
 
     def update(self, player):  # поведение противников
         self.rect = self.rect.move(self.speed, 0)
         if pygame.sprite.collide_mask(self, player):
             player.hurt(self.damage)
-        self.max += self.speed
         if self.count > 35:
             self.count = 0
         self.animation()
         self.count += 1
-        if self.max % 200 == 0:
+        if pygame.sprite.spritecollideany(self, enemies_border_group):
             self.speed *= -1
             if self.direction == 'right':
                 self.direction = 'left'
