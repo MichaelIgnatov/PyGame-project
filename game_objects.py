@@ -13,6 +13,9 @@ class Box(pygame.sprite.Sprite):
         self.rect = self.image.get_rect().move(
             tile_width * pos_x, tile_height * pos_y)
 
+    def erase(self):
+        self.kill()
+
 
 # Каменная стена
 class StoneWall(pygame.sprite.Sprite):
@@ -22,19 +25,26 @@ class StoneWall(pygame.sprite.Sprite):
         self.rect = self.image.get_rect().move(
             tile_width * pos_x, tile_height * pos_y)
 
+    def erase(self):
+        self.kill()
+
 
 # Колючка
 class Spike(pygame.sprite.Sprite):
     def __init__(self, tile_type, pos_x, pos_y):
         super().__init__(spike_group, enemies_group, all_sprites)
         self.image = tile_images[tile_type]
+        self.type = tile_type
         self.rect = self.image.get_rect().move(
             tile_width * pos_x, tile_height * pos_y)
         self.damage = 1
 
     def update(self, player):
         if pygame.sprite.collide_mask(self, player):
-            player.hurt(self.damage)
+            player.hurt(self.damage, self.type)
+
+    def erase(self):
+        self.kill()
 
 
 # Монетка
@@ -59,6 +69,9 @@ class Coin(pygame.sprite.Sprite):
     def animation(self):
         self.image = self.coins_animation[self.count // 5]
 
+    def erase(self):
+        self.kill()
+
 
 # Портал
 class Portal(pygame.sprite.Sprite):
@@ -79,6 +92,9 @@ class Portal(pygame.sprite.Sprite):
     def animation(self):
         self.image = self.portal_animation[self.count // 5]
 
+    def erase(self):
+        self.kill()
+
 
 # Объект, ограничивающий передвижение игрока
 class Border(pygame.sprite.Sprite):
@@ -88,6 +104,9 @@ class Border(pygame.sprite.Sprite):
         self.rect = self.image.get_rect().move(
             tile_width * pos_x, tile_height * pos_y)
 
+    def erase(self):
+        self.kill()
+
 
 # Объект ограничивающий передвижение противников
 class EnemiesBorder(pygame.sprite.Sprite):
@@ -96,3 +115,6 @@ class EnemiesBorder(pygame.sprite.Sprite):
         self.image = tile_images[tile_type]
         self.rect = self.image.get_rect().move(
             tile_width * pos_x, tile_height * pos_y)
+
+    def erase(self):
+        self.kill()
