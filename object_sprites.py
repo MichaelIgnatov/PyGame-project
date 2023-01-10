@@ -22,26 +22,41 @@ tile_images = {
     'border': load_image('border.png'),
     'enemies_border': load_image('box.png')
 }
-
+#  Список спрайтов для анимации перемещения RedBall влево
 left_movement = [load_image('RedBall_left_45_rotate.png'), load_image('RedBall_left_90_rotate.png'),
                  load_image('RedBall_left_135_rotate.png'), load_image('RedBall_180_rotate.png'),
                  load_image('RedBall_right_135_rotate.png'), load_image('RedBall_right_90_rotate.png'),
                  load_image('RedBall_right_45_rotate.png'), load_image('RedBall.png')]
 
+#  Список спрайтов для анимации перемещения RedBall вправо
 right_movement = [load_image('RedBall_right_45_rotate.png'), load_image('RedBall_right_90_rotate.png'),
                   load_image('RedBall_right_135_rotate.png'), load_image('RedBall_180_rotate.png'),
                   load_image('RedBall_left_135_rotate.png'), load_image('RedBall_left_90_rotate.png'),
                   load_image('RedBall_left_45_rotate.png'), load_image('RedBall.png')]
 
+#  Список спрайтов для анимации монетки
 coins_animation = [load_image('coin.png'), load_image('coin1.png'),
                    load_image('coin2.png'), load_image('coin3.png'),
                    load_image('coin4.png'), load_image('coin4.png')]
 
+#  Список спрайтов для анимации порталов
 portal_animation = [load_image('portal1.png'), load_image('portal2.png'), load_image('portal3.png'),
                     load_image('portal4.png')]
 
-player_image = load_image('player.png')
-red_ball_image = load_image('RedBall.png')
-boss_image = load_image('Boss.png')
+#  Список спрайтов для анимации перемещения Boss влево
+boss_left_movement = [load_image('Boss_left_45_rotate.png'), load_image('Boss_left_90_rotate.png'),
+                 load_image('Boss_left_135_rotate.png'), load_image('Boss_180_rotate.png'),
+                 load_image('Boss_right_135_rotate.png'), load_image('Boss_right_90_rotate.png'),
+                 load_image('Boss_right_45_rotate.png'), load_image('Boss.png')]
+
+#  Список спрайтов для анимации перемещения Boss вправо
+boss_right_movement = [load_image('Boss_right_45_rotate.png'), load_image('Boss_right_90_rotate.png'),
+                  load_image('Boss_right_135_rotate.png'), load_image('Boss_180_rotate.png'),
+                  load_image('Boss_left_135_rotate.png'), load_image('Boss_left_90_rotate.png'),
+                  load_image('Boss_left_45_rotate.png'), load_image('Boss.png')]
+
+player_image = load_image('player.png')  # Спрайт игрока
+red_ball_image = load_image('RedBall.png')  # Спрайт RedBall
+boss_image = load_image('Boss.png')  # Спрайт Boss
 
 tile_width = tile_height = 50

@@ -22,8 +22,8 @@ def end_screen(screen, WIDTH, HEIGHT, clock, FPS, game_result):
     menu_image = load_image('Menu.png')
     exit_image = load_image('Exit.png')
 
-    menu_button = Button(menu_image, (340, 200))
-    exit_button = Button(exit_image, (355, 300))
+    menu_button = Button(menu_image, (340, 250))
+    exit_button = Button(exit_image, (355, 370))
 
     if game_result == 'lose':
         text = lose_text
@@ -42,6 +42,7 @@ def end_screen(screen, WIDTH, HEIGHT, clock, FPS, game_result):
 
         place_text(screen, text, x, y, 50)
         if one_repetition:
+            sound.set_volume(0.5)
             sound.play()
             one_repetition = False
 
@@ -53,8 +54,10 @@ def end_screen(screen, WIDTH, HEIGHT, clock, FPS, game_result):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if menu_button.checkForInput(mouse_pos):
                     new_game = True
+                    running = False
                 if exit_button.checkForInput(mouse_pos):
                     running = False
+                    terminate()
         pygame.display.flip()
         clock.tick(FPS)
     return new_game

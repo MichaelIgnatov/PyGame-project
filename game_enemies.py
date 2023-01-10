@@ -58,39 +58,42 @@ class Boss(pygame.sprite.Sprite):
         self.image = boss_image
         self.health = 5
         self.rect = self.image.get_rect().move(tile_width * pos_x, tile_height * pos_y)
-        self.speed = 5
+        self.speed = 0
         self.damage = 1
         self.left_movement = boss_left_movement
         self.right_movement = boss_right_movement
         self.count = 0
         self.direction = ''
+        self.set_direction_r = False
+        self.set_direction_l = False
 
     def update(self, player):  # поведение противников
         if self.health == 0:
             self.kill()
         else:
-            if abs(self.rect.x - player.rect.x) <= 40:
-                if self.rect.x - player.rect.x <= 0:
-                    self.direction = 'left'
-                    self.speed *= -1
-                else:
-                    self.direction = 'right'
-                if self.health == 0:
-                    self.kill()
+            if abs(self.rect.x - player.rect.x) <= 300:
                 self.rect = self.rect.move(self.speed, 0)
+                if self.count > 35:
+                    self.count = 0
+                self.animation()
+                self.count += 1
+                if player.rect.x < self.rect.x:
+                    self.speed = -5
+                    self.direction = 'left'
+                if player.rect.x > self.rect.x:
+                    self.speed = 5
+                    self.direction = 'right'
                 if pygame.sprite.spritecollideany(self, enemies_border_group):
                     self.speed *= -1
+                    if self.direction == 'left':
+                        self.direction = 'right'
+                    else:
+                        self.direction = 'left'
                 if pygame.sprite.collide_mask(self, player):
                     if player.player_position != 'top':
                         player.hurt(self.damage)
                     else:
                         self.hurt(player.get_damage())
-
-                if self.count > 35:
-                    self.count = 0
-                self.animation()
-                self.count += 1
-            self.rect = self.rect.move(self.speed, 0)
 
     def animation(self):
         if self.direction == 'right':

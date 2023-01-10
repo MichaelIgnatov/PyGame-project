@@ -1,9 +1,41 @@
+JUMP_POWER = 10
+GRAVITY = 0.35
+self.yvel = 0  # скорость вертикального перемещения
+self.onGround = False  # На земле ли я?
+if up:
+   if self.onGround: # прыгаем, только когда можем оттолкнуться от земли
+       self.yvel = -JUMP_POWER
+
+
+
+if not self.onGround:
+    self.yvel +=  GRAVITY
+
+self.onGround = False; # Мы не знаем, когда мы на земле((
+self.rect.y += self.yvel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import pygame
 from object_sprites import player_group, all_sprites, box_group, player_image, tile_width, tile_height, \
-    stone_wall_group, portal_group, border_group, enemies_border_group
+    stone_wall_group, portal_group, border_group, enemies_border_group, enemies_group
 from load_image import load_image
-from game_objects import Box, StoneWall, Border, EnemiesBorder
-
+import time
 
 # класс игрового персонажа
 
@@ -29,10 +61,9 @@ class Player(pygame.sprite.Sprite):
         self.heart_list = [self.full_heart, self.full_heart, self.full_heart]
         self.heart_x = 50
         self.heart_y = 50
-        self.JUMP_COUNT = 15
-        self.jump = 15
         self.is_jump = False
-        self.object_list = ''
+        self.jump_count = 0
+        self.jump_max = 20
 
     def update(self, *args):
         if self.health <= 0:
@@ -43,12 +74,18 @@ class Player(pygame.sprite.Sprite):
             if args:
                 if args[0] == pygame.K_SPACE and not self.is_jump:
                     self.is_jump = True
+                    self.jump_count = self.jump_max
                 if self.is_jump:
-                    if self.JUMP_COUNT >= -1 * self.jump:
-                        self.rect = self.rect.move(0, -1 * self.jump)
-                        self.jump -= 1
+                    self.rect.y -= self.jump_count
+                    if pygame.sprite.spritecollideany(self, box_group) \
+                            or pygame.sprite.spritecollideany(self, stone_wall_group) \
+                            or pygame.sprite.spritecollideany(self, border_group)\
+                            or pygame.sprite.spritecollideany(self, enemies_border_group):
+                        self.rect.y += self.jump_count
+                        self.is_jump = False
+                    if self.jump_count > -1 * self.jump_max:
+                        self.jump_count -= 1
                     else:
-                        self.jump = 15
                         self.is_jump = False
                 if args[0] == pygame.K_d:
                     self.rect = self.rect.move(self.speed, 0)
@@ -76,29 +113,16 @@ class Player(pygame.sprite.Sprite):
                         self.kill()
                         self.game_result = 'win'
                         self.death = True
-                collide_count = 0
-                for elem in self.object_list:
-                    if pygame.sprite.collide_rect(self, elem) and type(elem) in [Box, StoneWall, Border, EnemiesBorder]:
-                        self.rect.bottom = elem.rect.top
-                    if self.rect.bottom == elem.rect.top and abs(self.rect.x - elem.rect.x) < 50:
-                        collide_count += 1
-                if collide_count == 0 and not self.is_jump:
-                    self.rect = self.rect.move(0, 15)
         if self.death:
             self.save_result()
 
-    def hurt(self, dmg, object_type=None):  # Нанесение повреждений игроку
+    def hurt(self, dmg):  # Нанесение повреждений игроку
         self.sound_hurt.play()
         self.health -= dmg
-        if object_type != None:
-            self.rect = self.rect.move(self.speed * -1 * 5, 0)
 
     def take_coin(self):  # Подсчёт собранных игроком монет
         self.sound_coin.play()
         self.coins += 1
-
-    def set_object_list(self, object_list):  # Получение списка объектов
-        self.object_list = object_list
 
     def set_current_level(self, level):  # Устанавливает текущий уровень
         self.current_level = level
@@ -106,10 +130,10 @@ class Player(pygame.sprite.Sprite):
     def get_game_result(self):  # Возвращает результат текущей игры
         return self.game_result
 
-    def get_position(self):  # Возвращает позицию игрока относительно противника
+    def get_position(self):
         return self.player_position
 
-    def get_damage(self):  # Возвращает урон игрока
+    def get_damage(self):
         return self.damage
 
     def health_display(self, screen):
@@ -125,11 +149,11 @@ class Player(pygame.sprite.Sprite):
         current_result = self.coins
         text[3] = str(current_result)
 
-        if self.current_level == 'level1.txt' and int(text[0]) < current_result and self.game_result == 'win':
+        if self.current_level == 'level1.txt' and int(text[0]) < current_result:
             text[0] = str(current_result)
-        if self.current_level == 'level2.txt' and int(text[1]) < current_result and self.game_result == 'win':
+        if self.current_level == 'level2.txt' and int(text[1]) < current_result:
             text[1] = str(current_result)
-        if self.current_level == 'level3.txt' and int(text[2]) < current_result and self.game_result == 'win':
+        if self.current_level == 'level3.txt' and int(text[2]) < current_result:
             text[2] = str(current_result)
 
         file = open("data/result.txt", "w", encoding='utf8')
@@ -138,3 +162,4 @@ class Player(pygame.sprite.Sprite):
 
     def erase(self):
         self.kill()
+

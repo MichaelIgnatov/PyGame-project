@@ -2,7 +2,7 @@ import sys
 import pygame
 from player import Player
 from game_objects import Box, StoneWall, Spike, Coin, Portal, Border, EnemiesBorder
-from game_enemies import RedBall
+from game_enemies import RedBall, Boss
 
 
 # получение файла уровня
@@ -15,29 +15,32 @@ def load_level(filename):
 
 
 # Создание игровых объектов
-def generate_level(level):
+def generate_level(level, l):
+    object_list = l
     new_player, x, y = None, None, None
     for y in range(len(level)):
         for x in range(len(level[y])):
             if level[y][x] == '#':
-                Box('box', x, y)
+                object_list.append(Box('box', x, y))
             elif level[y][x] == ':':
-                StoneWall('stone_wall', x, y)
+                object_list.append(StoneWall('stone_wall', x, y))
             elif level[y][x] == 'e':
-                RedBall(x, y)
+                object_list.append(RedBall(x, y))
+            elif level[y][x] == 'B':
+                object_list.append(Boss(x, y))
             elif level[y][x] == '^':
-                Spike('spike', x, y)
+                object_list.append(Spike('spike', x, y))
             elif level[y][x] == 'o':
-                Portal('portal', x, y)
+                object_list.append(Portal('portal', x, y))
             elif level[y][x] == '|':
-                Border('border', x, y)
+                object_list.append(Border('border', x, y))
             elif level[y][x] == '$':
-                Coin('coin', x, y)
+                object_list.append(Coin('coin', x, y))
             elif level[y][x] == 'b':
-                EnemiesBorder('enemies_border', x, y)
+                object_list.append(EnemiesBorder('enemies_border', x, y))
             elif level[y][x] == '@':
                 new_player = Player(x, y)
-    return new_player, x, y
+    return new_player, x, y, object_list
 
 
 # Размещение текста
