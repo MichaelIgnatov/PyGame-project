@@ -4,7 +4,7 @@ from button import Button
 from load_image import load_image
 
 
-def game_rules_screen(screen, WIDTH, HEIGHT, clock, FPS):
+def game_rules_screen(screen, WIDTH, HEIGHT, clock, FPS):  # Правила игры
     fon = pygame.transform.scale(load_image('BackgroundFon.jpg'), (WIDTH, HEIGHT))
     screen.blit(fon, (0, 0))
 

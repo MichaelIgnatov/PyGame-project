@@ -3,7 +3,7 @@ from functions import terminate, place_text
 from load_image import load_image
 
 
-def start_screen(screen, WIDTH, HEIGHT, clock, FPS):
+def start_screen(screen, WIDTH, HEIGHT, clock, FPS):  # Стартовый экран
     intro_text = 'Для продолжения нажмите ПКМ или ЛКМ'
     start_sound = pygame.mixer.Sound("data/sounds/start_sound.ogg")
     start_sound.set_volume(0.5)

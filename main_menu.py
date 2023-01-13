@@ -5,7 +5,7 @@ from load_image import load_image
 from game_rule_screen import game_rules_screen
 
 
-def main_menu(screen, WIDTH, HEIGHT, clock, FPS):
+def main_menu(screen, WIDTH, HEIGHT, clock, FPS):  # Главное меню
     file = open("data/result.txt", "r", encoding='utf8')
     file_text = file.read().strip().split()
     points = 'Всего монет собрано: ' + str(int(file_text[0]) + int(file_text[1]) + int(file_text[2]))

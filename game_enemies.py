@@ -42,7 +42,7 @@ class RedBall(pygame.sprite.Sprite):
 
         self.animation()
 
-    def animation(self):
+    def animation(self):  # Анимация
         if self.direction == 'right':
             self.image = self.right_movement[self.count // 5]
         if self.direction == 'left':
@@ -95,7 +95,7 @@ class Boss(pygame.sprite.Sprite):
                     else:
                         self.hurt(player.get_damage())
 
-    def animation(self):
+    def animation(self):  # Анимация
         if self.direction == 'right':
             self.image = self.right_movement[self.count // 5]
         if self.direction == 'left':

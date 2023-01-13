@@ -66,7 +66,7 @@ class Coin(pygame.sprite.Sprite):
             player.take_coin()
             self.kill()
 
-    def animation(self):
+    def animation(self):  # Анимация
         self.image = self.coins_animation[self.count // 5]
 
     def erase(self):
@@ -83,7 +83,7 @@ class Portal(pygame.sprite.Sprite):
         self.portal_animation = portal_animation
         self.count = 0
 
-    def update(self):
+    def update(self):  # Анимация
         if self.count > 15:
             self.count = 0
         self.animation()

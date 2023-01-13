@@ -4,7 +4,7 @@ from load_image import load_image
 from button import Button
 
 
-def end_screen(screen, WIDTH, HEIGHT, clock, FPS, game_result):
+def end_screen(screen, WIDTH, HEIGHT, clock, FPS, game_result):  # Экран окончания игры
     pygame.mouse.set_visible(True)
     new_game = False
     file = open("data/result.txt", "r", encoding='utf8')

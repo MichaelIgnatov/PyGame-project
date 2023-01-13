@@ -41,8 +41,6 @@ def game(screen, WIDTH, HEIGHT, clock, FPS, running, object_list):
         if keys[pygame.K_a]:
             player.update(pygame.K_a, object_list)
 
-        player.health_display(screen)
-
         enemies_group.update(player)
 
         coins_group.update(player)
@@ -51,6 +49,7 @@ def game(screen, WIDTH, HEIGHT, clock, FPS, running, object_list):
 
         screen.blit(background, (0, 0))
         camera.update(player, WIDTH, HEIGHT)
+        player.health_display(screen)
         for sprite in all_sprites:
             camera.apply(sprite)
         all_sprites.draw(screen)
@@ -89,8 +88,11 @@ main_running = True
 
 object_list = []
 player = None
-while main_running:
-    camera = Camera()
-    proccess()
-    game_condition()
-    end_condition()
+try:
+    while main_running:
+        camera = Camera()
+        proccess()
+        game_condition()
+        end_condition()
+except Exception:
+    print('No error')
