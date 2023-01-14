@@ -1,6 +1,5 @@
 import pygame
-from object_sprites import box_group, all_sprites, tile_images, tile_width, tile_height, stone_wall_group, spike_group, \
-    enemies_group, coins_group, coins_animation, portal_group, portal_animation, border_group,  enemies_border_group
+from variables import *
 
 
 # игровые объекты

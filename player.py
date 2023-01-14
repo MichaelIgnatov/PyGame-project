@@ -1,8 +1,7 @@
 import pygame
-from object_sprites import player_group, all_sprites, box_group, player_image, tile_width, tile_height, \
-    stone_wall_group, portal_group, border_group, enemies_border_group, enemies_group
+from variables import *
 from load_image import load_image
-from game_objects import Box, StoneWall, Border, EnemiesBorder
+from game_objects import Box, StoneWall, Border, EnemiesBorder, Spike
 
 
 # класс игрового персонажа
@@ -57,7 +56,7 @@ class Player(pygame.sprite.Sprite):
                     self.rect = self.rect.move(self.speed, 0)
                     if pygame.sprite.spritecollideany(self, box_group) \
                             or pygame.sprite.spritecollideany(self, stone_wall_group) \
-                            or pygame.sprite.spritecollideany(self, border_group)\
+                            or pygame.sprite.spritecollideany(self, border_group) \
                             or pygame.sprite.spritecollideany(self, enemies_border_group):
                         self.rect = self.rect.move(-1 * self.speed, 0)
                     if pygame.sprite.spritecollideany(self, portal_group):
@@ -71,9 +70,9 @@ class Player(pygame.sprite.Sprite):
                     self.rect = self.rect.move(self.speed, 0)
                     if pygame.sprite.spritecollideany(self, box_group) \
                             or pygame.sprite.spritecollideany(self, stone_wall_group) \
-                            or pygame.sprite.spritecollideany(self, border_group)\
+                            or pygame.sprite.spritecollideany(self, border_group) \
                             or pygame.sprite.spritecollideany(self, enemies_border_group):
-                        self.rect = self.rect.move(self.speed, 0)
+                        self.rect = self.rect.move(-1 * self.speed, 0)
                     if pygame.sprite.spritecollideany(self, portal_group):
                         self.sound_portal.play()
                         self.rect = self.rect.move(-1 * self.speed, 0)
@@ -83,16 +82,19 @@ class Player(pygame.sprite.Sprite):
                 collide_count = 0
 
                 for elem in self.object_list:
-                    if pygame.sprite.collide_rect(self, elem) and type(elem) \
-                            in [Box, StoneWall, Border, EnemiesBorder]:
+                    if pygame.sprite.collide_rect(self, elem) and type(elem) in [Box, StoneWall, Border, EnemiesBorder]:
                         self.rect.bottom = elem.rect.top
-                    if self.rect.bottom == elem.rect.top and abs(self.rect.x - elem.rect.x) < 50:
+                    if self.rect.bottom == elem.rect.top and abs(self.rect.x - elem.rect.x) < 50 and type(elem) != Spike:
                         collide_count += 1
                         self.player_position = ''
                 if collide_count == 0 and not self.is_jump:
                     self.rect = self.rect.move(0, 15)
                     self.player_position = 'top'
-                    if pygame.sprite.spritecollideany(self, enemies_group):
+                    if pygame.sprite.spritecollideany(self, enemies_group) \
+                            or pygame.sprite.spritecollideany(self, box_group) \
+                            or pygame.sprite.spritecollideany(self, stone_wall_group) \
+                            or pygame.sprite.spritecollideany(self, border_group) \
+                            or pygame.sprite.spritecollideany(self, enemies_border_group):
                         self.rect.bottom = elem.rect.top
         if self.death:
             self.save_result()
@@ -100,9 +102,13 @@ class Player(pygame.sprite.Sprite):
     def hurt(self, dmg, object_type=None):  # Нанесение повреждений игроку
         self.sound_hurt.play()
         self.health -= dmg
+        if self.health == 2:
+            self.image = delighted_player_image
+        if self.health == 1:
+            self.image = sad_player_image
         self.heart_list[self.health] = self.empty_heart
         if object_type != None:
-            self.discarding() # Что-то напоминающее отбрасывание
+            self.discarding()  # Что-то напоминающее отбрасывание
 
     def take_coin(self):  # Подсчёт собранных игроком монет
         self.sound_coin.play()
@@ -126,8 +132,18 @@ class Player(pygame.sprite.Sprite):
     def discarding(self):
         if self.speed < 0:
             self.rect = self.rect.move(self.speed * 4, 0)
+            if pygame.sprite.spritecollideany(self, box_group) \
+                    or pygame.sprite.spritecollideany(self, stone_wall_group) \
+                    or pygame.sprite.spritecollideany(self, border_group) \
+                    or pygame.sprite.spritecollideany(self, enemies_border_group):
+                self.rect = self.rect.move(self.speed * -4, 0)
         if self.speed > 0:
             self.rect = self.rect.move(self.speed * -4, 0)
+            if pygame.sprite.spritecollideany(self, box_group) \
+                    or pygame.sprite.spritecollideany(self, stone_wall_group) \
+                    or pygame.sprite.spritecollideany(self, border_group) \
+                    or pygame.sprite.spritecollideany(self, enemies_border_group):
+                self.rect = self.rect.move(self.speed * 4, 0)
 
     def health_display(self, screen):  # Отображение здоровья героя
         self.heart_x = 30

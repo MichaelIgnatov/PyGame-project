@@ -15,8 +15,8 @@ def load_level(filename):
 
 
 # Создание игровых объектов
-def generate_level(level, l):
-    object_list = l
+def generate_level(level, ls):
+    object_list = ls
     new_player, x, y = None, None, None
     for y in range(len(level)):
         for x in range(len(level[y])):

@@ -1,18 +1,16 @@
 from camera import Camera
 from start_screen import start_screen
 from functions import load_level, generate_level
-from object_sprites import all_sprites, enemies_group, coins_group, portal_group
+from variables import *
 from main_menu import main_menu
 from end_screen import end_screen
 import pygame
 
 pygame.init()
-size = WIDTH, HEIGHT = 700, 600
+size = WIDTH, HEIGHT
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Black Cube")
-BLACK = pygame.Color('black')
 clock = pygame.time.Clock()
-FPS = 30
 menu_condition = True
 game_condition = False
 end_condition = False
@@ -22,10 +20,17 @@ background = pygame.transform.smoothscale(background, screen.get_size())
 
 
 def game(screen, WIDTH, HEIGHT, clock, FPS, running, object_list):
+    pygame.mixer.music.load("data/sounds/fon_music.mp3")
+    pygame.mixer.music.set_volume(0.4)
+    one_iter = True
     while running:
         screen.fill(BLACK)
         clock.tick(FPS)
         player.set_object_list(object_list)
+
+        if one_iter:
+            pygame.mixer.music.play(-1)
+            one_iter = False
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -56,6 +61,7 @@ def game(screen, WIDTH, HEIGHT, clock, FPS, running, object_list):
         pygame.display.flip()
         if player.death:
             running = False
+    pygame.mixer.music.stop()
     screen.fill(BLACK)
 
 

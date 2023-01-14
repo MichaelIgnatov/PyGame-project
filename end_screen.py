@@ -1,6 +1,7 @@
 import pygame
 from functions import terminate, place_text
 from load_image import load_image
+from variables import *
 from button import Button
 
 
@@ -12,8 +13,6 @@ def end_screen(screen, WIDTH, HEIGHT, clock, FPS, game_result):  # Экран о
     file.close()
     lose_text = f'Вы проиграли! Монет собрано: {file_text[-1]}'
     win_text = f'Уровень пройден! Монет собрано: {file_text[-1]}'
-    lose_sound = pygame.mixer.Sound("data/sounds/game-lose.ogg")
-    win_sound = pygame.mixer.Sound("data/sounds/game-win.ogg")
     one_repetition = True
 
     fon = pygame.transform.scale(load_image('BackgroundFon.jpg'), (WIDTH, HEIGHT))
@@ -23,18 +22,18 @@ def end_screen(screen, WIDTH, HEIGHT, clock, FPS, game_result):  # Экран о
     exit_image = load_image('Exit.png')
 
     menu_button = Button(menu_image, (340, 250))
-    exit_button = Button(exit_image, (355, 370))
+    exit_button = Button(exit_image, (335, 370))
 
     if game_result == 'lose':
         text = lose_text
         x = 55
         y = 100
-        sound = lose_sound
+        sound = LOSE_SOUND
     else:
         text = win_text
         x = 35
         y = 100
-        sound = win_sound
+        sound = WIN_SOUND
     running = True
     while running:
         mouse_pos = pygame.mouse.get_pos()
