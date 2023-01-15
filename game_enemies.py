@@ -55,7 +55,7 @@ class Boss(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y):
         super().__init__(enemies_group, all_sprites)
         self.image = boss_image
-        self.health = 5
+        self.health = 10
         self.rect = self.image.get_rect().move(tile_width * pos_x, tile_height * pos_y)
         self.speed = 0
         self.damage = 1
@@ -95,70 +95,16 @@ class Boss(pygame.sprite.Sprite):
 
                 if pygame.sprite.collide_mask(self, player):
                     if player.player_position != 'top':
-                        player.hurt(self.damage)
+                        player.hurt(self.damage, 'boss')
                     else:
                         self.hurt(player.get_damage())
+                        player.discarding('boss')
 
     def animation(self):  # Анимация
         if self.direction == 'right':
             self.image = self.right_movement[self.count // 5]
         if self.direction == 'left':
             self.image = self.left_movement[self.count // 5]
-
-    def hurt(self, dmg):
-        self.health -= dmg
-
-
-class Bullet(pygame.sprite.Sprite):
-    def __init__(self, pos_x, pos_y):
-        super().__init__(all_sprites)
-        self.image = bullet_animation[0]
-        self.type = 'bullet'
-        self.rect = self.image.get_rect().move(pos_x, pos_y)
-        self.damage = 1
-        self.count = 0
-        self.speed = -10
-
-    def update(self, player):
-        if self.count > 5:
-            self.count = 0
-        self.count += 1
-        self.animation()
-        self.rect = self.rect.move(self.speed, 0)
-        if pygame.sprite.spritecollideany(self, enemies_group) \
-                or pygame.sprite.spritecollideany(self, box_group) \
-                or pygame.sprite.spritecollideany(self, stone_wall_group) \
-                or pygame.sprite.spritecollideany(self, border_group) \
-                or pygame.sprite.spritecollideany(self, enemies_border_group)\
-                or self.rect.x < 0 or self.rect.x > WIDTH:
-            self.kill()
-        if pygame.sprite.collide_mask(self, player):
-            player.hurt(self.damage, self.type)
-
-    def animation(self):
-        self.image = bullet_animation[self.count // 5]
-
-
-class BlackBall(pygame.sprite.Sprite):
-    def __init__(self, pos_x, pos_y):
-        super().__init__(enemies_group, all_sprites)
-        self.image = black_ball_image
-        self.health = 1
-        self.rect = self.image.get_rect().move(tile_width * pos_x, tile_height * pos_y)
-        self.damage = 1
-        self.count = 0
-
-    def update(self, player=None):
-        if self.health <= 0:
-            self.kill()
-        else:
-            if self.count > 35:
-                self.count = 0
-
-            if self.count == 35:
-                bullets.append(Bullet(self.rect.x, self.rect.y))
-
-            self.count += 1
 
     def hurt(self, dmg):
         self.health -= dmg

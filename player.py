@@ -118,7 +118,7 @@ class Player(pygame.sprite.Sprite):
             self.image = sad_player_image
             self.heart_list[self.health] = self.empty_heart
         if object_type != None:
-            self.discarding()  # Что-то напоминающее отбрасывание
+            self.discarding(object_type)  # Что-то напоминающее отбрасывание
 
     def take_coin(self):  # Подсчёт собранных игроком монет
         self.sound_coin.play()
@@ -139,21 +139,25 @@ class Player(pygame.sprite.Sprite):
     def get_damage(self):  # Возвращает урон игрока
         return self.damage
 
-    def discarding(self):
+    def discarding(self, object_type):
+        if object_type == 'boss':
+            repel = 8
+        else:
+            repel = 4
         if self.speed < 0:
-            self.rect = self.rect.move(self.speed * 4, 0)
+            self.rect = self.rect.move(self.speed * repel, 0)
             if pygame.sprite.spritecollideany(self, box_group) \
                     or pygame.sprite.spritecollideany(self, stone_wall_group) \
                     or pygame.sprite.spritecollideany(self, border_group) \
                     or pygame.sprite.spritecollideany(self, enemies_border_group):
-                self.rect = self.rect.move(self.speed * -4, 0)
+                self.rect = self.rect.move(self.speed * -repel, 0)
         if self.speed > 0:
-            self.rect = self.rect.move(self.speed * -4, 0)
+            self.rect = self.rect.move(self.speed * -repel, 0)
             if pygame.sprite.spritecollideany(self, box_group) \
                     or pygame.sprite.spritecollideany(self, stone_wall_group) \
                     or pygame.sprite.spritecollideany(self, border_group) \
                     or pygame.sprite.spritecollideany(self, enemies_border_group):
-                self.rect = self.rect.move(self.speed * 4, 0)
+                self.rect = self.rect.move(self.speed * repel, 0)
 
     def health_display(self, screen):  # Отображение здоровья героя
         self.heart_x = 30

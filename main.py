@@ -52,10 +52,6 @@ def game(screen, WIDTH, HEIGHT, clock, FPS, running, object_list):
 
         portal_group.update()
 
-        for bullet in bullets:
-            bullet.update(player)
-            print(bullet.rect.x)
-
         screen.blit(background, (0, 0))
         camera.update(player, WIDTH, HEIGHT)
         player.health_display(screen)
