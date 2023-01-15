@@ -47,6 +47,14 @@ class Player(pygame.sprite.Sprite):
                     if self.JUMP_COUNT >= -1 * self.jump:
                         self.rect = self.rect.move(0, -1 * self.jump)
                         self.jump -= 1
+                        for elem in self.object_list:
+                            if pygame.sprite.collide_rect(self, elem) \
+                                    and type(elem) in [Box, StoneWall, Border, EnemiesBorder]:
+                                self.rect = self.rect.move(0, self.jump)
+                                self.jump = 15
+                                self.is_jump = False
+                                self.player_position = ''
+
                     else:
                         self.jump = 15
                         self.is_jump = False
@@ -90,15 +98,13 @@ class Player(pygame.sprite.Sprite):
                         collide_count += 1
                         self.player_position = ''
 
-                if collide_count == 0 and not self.is_jump:
+                if collide_count == 0 and not self.is_jump:  # Падение
                     self.rect = self.rect.move(0, 15)
                     self.player_position = 'top'
-                    if pygame.sprite.spritecollideany(self, enemies_group) \
-                            or pygame.sprite.spritecollideany(self, box_group) \
-                            or pygame.sprite.spritecollideany(self, stone_wall_group) \
-                            or pygame.sprite.spritecollideany(self, border_group) \
-                            or pygame.sprite.spritecollideany(self, enemies_border_group):
-                        self.rect.bottom = elem.rect.top
+                    for elem in self.object_list:
+                        if pygame.sprite.collide_rect(self, elem) \
+                                and type(elem) in [Box, StoneWall, Border, EnemiesBorder]:
+                            self.rect.bottom = elem.rect.top
         if self.death:
             self.save_result()
 
@@ -107,9 +113,10 @@ class Player(pygame.sprite.Sprite):
         self.health -= dmg
         if self.health == 2:
             self.image = delighted_player_image
+            self.heart_list[self.health] = self.empty_heart
         if self.health == 1:
             self.image = sad_player_image
-        self.heart_list[self.health] = self.empty_heart
+            self.heart_list[self.health] = self.empty_heart
         if object_type != None:
             self.discarding()  # Что-то напоминающее отбрасывание
 
