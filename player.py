@@ -20,9 +20,9 @@ class Player(pygame.sprite.Sprite):
         self.player_position = ''
         self.current_level = ''
         self.game_result = ''
-        self.sound_coin = pygame.mixer.Sound("data/sounds/take a coin.ogg")
-        self.sound_hurt = pygame.mixer.Sound("data/sounds/player_hurt.ogg")
-        self.sound_portal = pygame.mixer.Sound("data/sounds/portal.ogg")
+        self.sound_coin = COIN_SOUND
+        self.sound_hurt = SOUND_HURT
+        self.sound_portal = SOUND_PORTAL
         self.full_heart = load_image('heart.png')
         self.empty_heart = load_image('empty_heart.png')
         self.heart_list = [self.full_heart, self.full_heart, self.full_heart]
@@ -51,6 +51,7 @@ class Player(pygame.sprite.Sprite):
                         self.jump = 15
                         self.is_jump = False
                         self.player_position = ''
+
                 if args[0] == pygame.K_d:
                     self.speed = 10
                     self.rect = self.rect.move(self.speed, 0)
@@ -65,6 +66,7 @@ class Player(pygame.sprite.Sprite):
                         self.kill()
                         self.game_result = 'win'
                         self.death = True
+
                 if args[0] == pygame.K_a:
                     self.speed = -10
                     self.rect = self.rect.move(self.speed, 0)
@@ -87,6 +89,7 @@ class Player(pygame.sprite.Sprite):
                     if self.rect.bottom == elem.rect.top and abs(self.rect.x - elem.rect.x) < 50 and type(elem) != Spike:
                         collide_count += 1
                         self.player_position = ''
+
                 if collide_count == 0 and not self.is_jump:
                     self.rect = self.rect.move(0, 15)
                     self.player_position = 'top'

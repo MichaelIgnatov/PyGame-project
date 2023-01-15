@@ -34,6 +34,7 @@ def end_screen(screen, WIDTH, HEIGHT, clock, FPS, game_result):  # Экран о
         x = 35
         y = 100
         sound = WIN_SOUND
+
     running = True
     while running:
         mouse_pos = pygame.mouse.get_pos()

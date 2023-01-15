@@ -2,7 +2,7 @@ import sys
 import pygame
 from player import Player
 from game_objects import Box, StoneWall, Spike, Coin, Portal, Border, EnemiesBorder
-from game_enemies import RedBall, Boss
+from game_enemies import RedBall, Boss, BlackBall
 
 
 # получение файла уровня
@@ -18,6 +18,7 @@ def load_level(filename):
 def generate_level(level, ls):
     object_list = ls
     new_player, x, y = None, None, None
+
     for y in range(len(level)):
         for x in range(len(level[y])):
             if level[y][x] == '#':
@@ -26,6 +27,8 @@ def generate_level(level, ls):
                 object_list.append(StoneWall('stone_wall', x, y))
             elif level[y][x] == 'e':
                 object_list.append(RedBall(x, y))
+            elif level[y][x] == 'E':
+                object_list.append(BlackBall(x, y))
             elif level[y][x] == 'B':
                 object_list.append(Boss(x, y))
             elif level[y][x] == '^':

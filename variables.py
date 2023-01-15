@@ -10,6 +10,9 @@ FPS = 30
 START_SOUND = pygame.mixer.Sound("data/sounds/start_sound.ogg")
 LOSE_SOUND = pygame.mixer.Sound("data/sounds/game-lose.ogg")
 WIN_SOUND = pygame.mixer.Sound("data/sounds/game-win.ogg")
+COIN_SOUND = pygame.mixer.Sound("data/sounds/take a coin.ogg")
+SOUND_HURT = pygame.mixer.Sound("data/sounds/player_hurt.ogg")
+SOUND_PORTAL = pygame.mixer.Sound("data/sounds/portal.ogg")
 
 all_sprites = pygame.sprite.Group()
 tiles_group = pygame.sprite.Group()
@@ -65,11 +68,16 @@ boss_right_movement = [load_image('Boss_right_45_rotate.png'), load_image('Boss_
                   load_image('Boss_left_135_rotate.png'), load_image('Boss_left_90_rotate.png'),
                   load_image('Boss_left_45_rotate.png'), load_image('Boss.png')]
 
+bullet_animation = [load_image('bullet1.png'), load_image('bullet2.png')]
+
 player_image = load_image('player.png')  # Спрайт игрока
 red_ball_image = load_image('RedBall.png')  # Спрайт RedBall
+black_ball_image = load_image('BlackBall.png')  # Спрайт BlackBall
 boss_image = load_image('Boss.png')  # Спрайт Boss
 
 delighted_player_image = load_image('delighted_player.jpg')
 sad_player_image = load_image('sad_player.jpg')
+
+bullets = []
 
 tile_width = tile_height = 50
