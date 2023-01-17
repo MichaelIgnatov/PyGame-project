@@ -72,7 +72,6 @@ bullet_animation = [load_image('bullet1.png'), load_image('bullet2.png')]
 
 player_image = load_image('player.png')  # Спрайт игрока
 red_ball_image = load_image('RedBall.png')  # Спрайт RedBall
-black_ball_image = load_image('BlackBall.png')  # Спрайт BlackBall
 boss_image = load_image('Boss.png')  # Спрайт Boss
 
 delighted_player_image = load_image('delighted_player.jpg')
