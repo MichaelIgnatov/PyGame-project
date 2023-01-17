@@ -68,7 +68,6 @@ boss_right_movement = [load_image('Boss_right_45_rotate.png'), load_image('Boss_
                   load_image('Boss_left_135_rotate.png'), load_image('Boss_left_90_rotate.png'),
                   load_image('Boss_left_45_rotate.png'), load_image('Boss.png')]
 
-bullet_animation = [load_image('bullet1.png'), load_image('bullet2.png')]
 
 player_image = load_image('player.png')  # Спрайт игрока
 red_ball_image = load_image('RedBall.png')  # Спрайт RedBall
