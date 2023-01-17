@@ -78,6 +78,4 @@ boss_image = load_image('Boss.png')  # Спрайт Boss
 delighted_player_image = load_image('delighted_player.jpg')
 sad_player_image = load_image('sad_player.jpg')
 
-bullets = []
-
 tile_width = tile_height = 50

@@ -1,5 +1,6 @@
 import pygame
 from variables import *
+from game_objects import Portal
 
 
 # классы противников
@@ -54,6 +55,8 @@ class RedBall(pygame.sprite.Sprite):
 class Boss(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y):
         super().__init__(enemies_group, all_sprites)
+        self.portal_x = pos_x
+        self.portal_y = pos_y
         self.image = boss_image
         self.health = 10
         self.rect = self.image.get_rect().move(tile_width * pos_x, tile_height * pos_y)
@@ -69,6 +72,8 @@ class Boss(pygame.sprite.Sprite):
     def update(self, player):  # поведение противников
         if self.health == 0:
             self.kill()
+            portal = Portal('portal', self.portal_x, self.portal_y)
+            ob
         else:
             if abs(self.rect.x - player.rect.x) <= 300:
                 self.rect = self.rect.move(self.speed, 0)

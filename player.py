@@ -32,6 +32,7 @@ class Player(pygame.sprite.Sprite):
         self.jump = 15
         self.is_jump = False
         self.object_list = ''
+        self.collide_count = 0
 
     def update(self, *args):
         if self.health <= 0:
@@ -73,22 +74,15 @@ class Player(pygame.sprite.Sprite):
                         self.kill()
                         self.game_result = 'win'
                         self.death = True
-                collide_count = 0
+                self.collide_count = 0
 
                 for elem in self.object_list:
                     if pygame.sprite.collide_rect(self, elem) and type(elem) in [Box, StoneWall, Border, EnemiesBorder]:
                         self.rect.bottom = elem.rect.top
                     if self.rect.bottom == elem.rect.top and abs(self.rect.x - elem.rect.x) < 50 and type(elem) != Spike:
-                        collide_count += 1
+                        self.collide_count += 1
                         self.player_position = ''
 
-                if collide_count == 0 and not self.is_jump:  # Падение
-                    self.rect = self.rect.move(0, 15)
-                    self.player_position = 'top'
-                    for elem in self.object_list:
-                        if pygame.sprite.collide_rect(self, elem) \
-                                and type(elem) in [Box, StoneWall, Border, EnemiesBorder]:
-                            self.rect.bottom = elem.rect.top
         if self.death:
             self.save_result()
 
@@ -104,11 +98,20 @@ class Player(pygame.sprite.Sprite):
         if object_type != None:
             self.discarding(object_type)
 
+    def fall(self):
+        if self.collide_count == 0 and not self.is_jump:  # Падение
+            self.rect = self.rect.move(0, 15)
+            self.player_position = 'top'
+            for elem in self.object_list:
+                if pygame.sprite.collide_rect(self, elem) \
+                        and type(elem) in [Box, StoneWall, Border, EnemiesBorder]:
+                    self.rect.bottom = elem.rect.top
+
     def take_coin(self):  # Подсчёт собранных игроком монет
         self.sound_coin.play()
         self.coins += 1
 
-    def jump(self):  # прыжок
+    def jumping(self):  # прыжок
         if self.is_jump:
             if self.JUMP_COUNT >= -1 * self.jump:
                 self.rect = self.rect.move(0, -1 * self.jump)

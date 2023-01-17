@@ -46,13 +46,13 @@ def main_menu(screen, WIDTH, HEIGHT, clock, FPS):  # Главное меню
                     level = level1_button.checkForInput(mouse_pos)
                     menu_running = False
                 if level2_button.checkForInput(mouse_pos):
-                    if int(points[-1]) > 0:
+                    if int(points[-1]) >= 9:
                         level = level2_button.checkForInput(mouse_pos)
                         menu_running = False
                     else:
                         text = 'Вы собрали недостаточное количество монет'
                 if level3_button.checkForInput(mouse_pos):
-                    if int(points[-1]) > 0:
+                    if int(points[-1]) > 25:
                         level = level3_button.checkForInput(mouse_pos)
                         menu_running = False
                     else:
