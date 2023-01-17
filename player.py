@@ -142,7 +142,7 @@ class Player(pygame.sprite.Sprite):
         return self.damage
 
     def discarding(self, object_type):  # Что-то напоминающее отбрасывание
-        if object_type == 'boss'
+        if object_type == 'boss':
             repel = 8
         else:
             repel = 4
