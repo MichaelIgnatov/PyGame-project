@@ -46,6 +46,8 @@ def game(screen, WIDTH, HEIGHT, clock, FPS, running, object_list):
         if keys[pygame.K_a]:
             player.update(pygame.K_a, object_list)
 
+        player.jump()
+
         enemies_group.update(player)
 
         coins_group.update(player)

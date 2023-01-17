@@ -43,22 +43,6 @@ class Player(pygame.sprite.Sprite):
                 if args[0] == pygame.K_SPACE and not self.is_jump:
                     self.is_jump = True
                     self.player_position = 'top'
-                if self.is_jump:
-                    if self.JUMP_COUNT >= -1 * self.jump:
-                        self.rect = self.rect.move(0, -1 * self.jump)
-                        self.jump -= 1
-                        for elem in self.object_list:
-                            if pygame.sprite.collide_rect(self, elem) \
-                                    and type(elem) in [Box, StoneWall, Border, EnemiesBorder]:
-                                self.rect = self.rect.move(0, self.jump)
-                                self.jump = 15
-                                self.is_jump = False
-                                self.player_position = ''
-
-                    else:
-                        self.jump = 15
-                        self.is_jump = False
-                        self.player_position = ''
 
                 if args[0] == pygame.K_d:
                     self.speed = 10
@@ -118,11 +102,29 @@ class Player(pygame.sprite.Sprite):
             self.image = sad_player_image
             self.heart_list[self.health] = self.empty_heart
         if object_type != None:
-            self.discarding(object_type)  # Что-то напоминающее отбрасывание
+            self.discarding(object_type)
 
     def take_coin(self):  # Подсчёт собранных игроком монет
         self.sound_coin.play()
         self.coins += 1
+
+    def jump(self):  # прыжок
+        if self.is_jump:
+            if self.JUMP_COUNT >= -1 * self.jump:
+                self.rect = self.rect.move(0, -1 * self.jump)
+                self.jump -= 1
+                for elem in self.object_list:
+                    if pygame.sprite.collide_rect(self, elem) \
+                            and type(elem) in [Box, StoneWall, Border, EnemiesBorder]:
+                        self.rect = self.rect.move(0, self.jump)
+                        self.jump = 15
+                        self.is_jump = False
+                        self.player_position = ''
+
+            else:
+                self.jump = 15
+                self.is_jump = False
+                self.player_position = ''
 
     def set_object_list(self, object_list):  # Получение списка объектов
         self.object_list = object_list
@@ -139,8 +141,8 @@ class Player(pygame.sprite.Sprite):
     def get_damage(self):  # Возвращает урон игрока
         return self.damage
 
-    def discarding(self, object_type):
-        if object_type == 'boss':
+    def discarding(self, object_type):  # Что-то напоминающее отбрасывание
+        if object_type == 'boss'
             repel = 8
         else:
             repel = 4
